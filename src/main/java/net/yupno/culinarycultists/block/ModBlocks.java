@@ -10,6 +10,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.yupno.culinarycultists.CulinaryCultists;
+import net.yupno.culinarycultists.block.custom.JumpyBlock;
+import net.yupno.culinarycultists.block.custom.SacrificialAltarBlock;
 import net.yupno.culinarycultists.item.ModItems;
 
 import java.util.function.Supplier;
@@ -19,7 +21,11 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, CulinaryCultists.MOD_ID);
 
     public static final RegistryObject<Block> ZIRCON_BLOCK = registerBlock("zircon_block",
-            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new JumpyBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(6f).requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> SACRIFICIAL_ALTAR = registerBlock("sacrificial_altar",
+            () -> new SacrificialAltarBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f).requiresCorrectToolForDrops()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){

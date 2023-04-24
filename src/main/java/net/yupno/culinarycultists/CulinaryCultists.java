@@ -12,6 +12,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.yupno.culinarycultists.block.ModBlocks;
+import net.yupno.culinarycultists.block.entity.ModBlockEntities;
 import net.yupno.culinarycultists.item.ModCreativeModeTab;
 import net.yupno.culinarycultists.item.ModItems;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class CulinaryCultists
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -47,6 +49,7 @@ public class CulinaryCultists
 
             // Blocks
             event.accept(ModBlocks.ZIRCON_BLOCK);
+            event.accept(ModBlocks.SACRIFICIAL_ALTAR);
         }
     }
 
