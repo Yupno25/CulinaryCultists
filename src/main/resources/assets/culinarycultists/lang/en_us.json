@@ -2,5 +2,7 @@
   "item.culinarycultists.zircon": "Zircon",
 
   "block.culinarycultists.zircon_block": "Block of Zircon",
-  "block.culinarycultists.sacrificial_altar": "Sacrificial Altar"
+  "block.culinarycultists.sacrificial_altar": "Sacrificial Altar",
+
+  "entity.minecraft.villager.culinarycultists.cultist_villager": "Cultist"
 }

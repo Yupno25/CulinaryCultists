@@ -15,6 +15,7 @@ import net.yupno.culinarycultists.block.ModBlocks;
 import net.yupno.culinarycultists.block.entity.ModBlockEntities;
 import net.yupno.culinarycultists.item.ModCreativeModeTab;
 import net.yupno.culinarycultists.item.ModItems;
+import net.yupno.culinarycultists.villager.ModVillagers;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -28,6 +29,8 @@ public class CulinaryCultists
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModVillagers.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
@@ -38,7 +41,9 @@ public class CulinaryCultists
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        event.enqueueWork(() -> {
+            ModVillagers.registerPOIs();
+        });
     }
 
     // Put items in here to add them to a Creative Mode Tab
