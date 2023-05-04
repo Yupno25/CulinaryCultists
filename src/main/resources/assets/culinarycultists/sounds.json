@@ -1,0 +1,8 @@
+{
+  "sacrifice_sound": {
+    "subtitle": "sounds.culinarycultists.sacrifice_sound",
+    "sounds": [
+      "culinarycultists:sacrifice_sound"
+    ]
+  }
+}

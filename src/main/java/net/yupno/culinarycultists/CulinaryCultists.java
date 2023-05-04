@@ -15,6 +15,8 @@ import net.yupno.culinarycultists.block.ModBlocks;
 import net.yupno.culinarycultists.block.entity.ModBlockEntities;
 import net.yupno.culinarycultists.item.ModCreativeModeTab;
 import net.yupno.culinarycultists.item.ModItems;
+import net.yupno.culinarycultists.recipe.ModRecipes;
+import net.yupno.culinarycultists.sound.ModSounds;
 import net.yupno.culinarycultists.villager.ModVillagers;
 import org.slf4j.Logger;
 
@@ -32,6 +34,9 @@ public class CulinaryCultists
 
         ModVillagers.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModRecipes.register(modEventBus);
+
+        ModSounds.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

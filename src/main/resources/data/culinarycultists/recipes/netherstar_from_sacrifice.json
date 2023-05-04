@@ -1,0 +1,15 @@
+{
+  "type": "culinarycultists:sacrificial_altar",
+  "ingredients": [
+    {
+      "item": "minecraft:emerald_block"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:nether_star"
+  },
+  "requiredFood": 12
+}

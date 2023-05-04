@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "culinarycultists:block/sacrificial_altar"
+    "down": "culinarycultists:block/sacrificial_altar_bottom",
+    "east": "culinarycultists:block/sacrificial_altar_side",
+    "north": "culinarycultists:block/sacrificial_altar_side",
+    "particle": "culinarycultists:block/sacrificial_altar_side",
+    "south": "culinarycultists:block/sacrificial_altar_side",
+    "up": "culinarycultists:block/sacrificial_altar_top",
+    "west": "culinarycultists:block/sacrificial_altar_side"
   }
 }

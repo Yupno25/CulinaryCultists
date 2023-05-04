@@ -1,0 +1,12 @@
+{
+  "type": "culinarycultists:sacrificial_altar",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "output": {
+    "item": "culinarycultists:zircon"
+  },
+  "requiredFood": 5
+}
