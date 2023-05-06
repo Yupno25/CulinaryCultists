@@ -18,6 +18,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
 
@@ -38,26 +41,21 @@ public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer simpleContainer, Level level) {
-        // In case of severe erros maybe reactivate this, required for effects to work
-        /*
-        if(level.isClientSide){
+        if(simpleContainer.isEmpty())
             return false;
-        }
-         */
         itemsToRemove = new ArrayList<>();
 
-        // Checks if there's enough food
+        // Converts simpleContainer into an itemStack list
+        List<ItemStack> simpleContainer_ = new ArrayList<>();
+        for (int i = 0; i < simpleContainer.getContainerSize(); i++) {
+            simpleContainer_.add(simpleContainer.getItem(i));
+        }
+
         if(requiredFood > 0){
             int food = 0;
 
-            // Converts simpleContainer into an itemStack list
-            List<ItemStack> itemStacks = new ArrayList<>();
-            for (int i = 0; i < simpleContainer.getContainerSize(); i++) {
-                itemStacks.add(simpleContainer.getItem(i));
-            }
-
-            // Checks through the all FoodItems on top of the block adding their food values up
-            for (ItemStack itemStack : itemStacks) {
+            // Checks through all FoodItems on top of the block and adds their food values up
+            for (ItemStack itemStack : simpleContainer_) {
                 if(itemStack.getItem().isEdible()){
                     for (int i = 0; i < itemStack.getCount(); i++) {
                         food += itemStack.getFoodProperties(null).getNutrition();
@@ -70,29 +68,27 @@ public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
                 if(food >= requiredFood)
                     break;
             }
-
-            // Returns if there wasn't enough food
             if(food < requiredFood)
                 return false;
         }
 
-        int match = 0;
-
         // Removes any duplicates from the SimpleContainer
-        List<ItemStack> noDuplicates = new ArrayList<>();
-        for (int i = 0; i < simpleContainer.getContainerSize(); i++) {
-            noDuplicates.add(simpleContainer.getItem(i));
+        for (int i = 0; i < simpleContainer_.size() - 1; i++) {
+            for (int j = i + 1; j < simpleContainer_.size(); j++) {
+                if (simpleContainer_.get(i).getItem().equals(simpleContainer_.get(j).getItem())) {
+                    simpleContainer_.remove(j);
+                    j--;
+                }
+            }
         }
-        noDuplicates = new ArrayList<>(new HashSet<>(noDuplicates));
 
+        int match = 0;
+        // Checks every item in recipeItems against every item in noDuplicates
         for (int i = 0; i < recipeItems.size(); i++) {
-            for (int j = 0; j < noDuplicates.size(); j++) {
-                // Checks every item in recipeItems against every item in noDuplicates
-                if(recipeItems.get(i).test(noDuplicates.get(j))){
-                    // In case they match "match" increases
+            for (int j = 0; j < simpleContainer_.size(); j++) {
+                if(recipeItems.get(i).test(simpleContainer_.get(j))){
                     match++;
-                    itemsToRemove.add(noDuplicates.get(j));
-                    noDuplicates.remove(j);
+                    itemsToRemove.add(simpleContainer_.get(j));
                 }
             }
         }

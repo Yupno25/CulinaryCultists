@@ -17,6 +17,6 @@ public class ModCreativeModeTab {
     @SubscribeEvent
     public static void registerCreativeModeTabs(CreativeModeTabEvent.Register event){
         CULINARYCULTISTS_TAB = event.registerCreativeModeTab(new ResourceLocation(CulinaryCultists.MOD_ID, "culinarycultists_tab"),
-                builder -> builder.icon(() -> new ItemStack(ModItems.ZIRCON.get())).title(Component.literal("Culinary Cultists Tab")).build());
+                builder -> builder.icon(() -> new ItemStack(ModItems.ZIRCON.get())).title(Component.translatable("culinarycultists.creative.tab")).build());
     }
 }
