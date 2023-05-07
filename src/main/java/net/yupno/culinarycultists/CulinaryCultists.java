@@ -56,6 +56,9 @@ public class CulinaryCultists
         if(event.getTab() == ModCreativeModeTab.CULINARYCULTISTS_TAB){
             // Items
             event.accept(ModItems.ZIRCON);
+            event.accept(ModItems.CORRUPTED_BREAD);
+            event.accept(ModItems.CORRUPTED_CHICKEN);
+            event.accept(ModItems.CORRUPTED_MUTTON);
 
             // Blocks
             event.accept(ModBlocks.ZIRCON_BLOCK);
