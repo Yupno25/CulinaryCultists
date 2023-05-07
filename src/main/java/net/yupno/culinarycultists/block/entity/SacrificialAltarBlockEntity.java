@@ -17,7 +17,7 @@ public class SacrificialAltarBlockEntity extends BlockEntity {
         super(ModBlockEntities.SACRIFICIAL_ALTAR.get(), blockPos, blockState);
     }
 
-    VoxelShape ABOVE = Block.box(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+    VoxelShape ABOVE = Block.box(-48.0D, 16.0D, -48.0D, 48.0D, 32.0D, 48.0D);
 
     public static List<ItemEntity> getItemsAbove(Level level, SacrificialAltarBlockEntity sacrificialAltarBlockEntity) {
         return sacrificialAltarBlockEntity.ABOVE.toAabbs().stream().flatMap((aabb) -> {

@@ -1,10 +1,13 @@
 package net.yupno.culinarycultists.block.custom;
 
 
+import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
@@ -13,10 +16,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
+import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.yupno.culinarycultists.block.ModBlocks;
 import net.yupno.culinarycultists.block.entity.SacrificialAltarBlockEntity;
 import net.yupno.culinarycultists.recipe.SacrificialAltarRecipe;
 import net.yupno.culinarycultists.sound.ModSounds;
@@ -27,6 +40,10 @@ import java.util.Optional;
 import java.util.Random;
 
 public class SacrificialAltarBlock extends BaseEntityBlock {
+    @Nullable
+    private static BlockPattern altarPattern;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+
     public SacrificialAltarBlock(Properties properties) {
         super(properties);
     }
@@ -41,11 +58,30 @@ public class SacrificialAltarBlock extends BaseEntityBlock {
         if(entity instanceof SacrificialAltarBlockEntity){
             SacrificialAltarBlockEntity sacrificialAltarEntity = ((SacrificialAltarBlockEntity)entity);
 
+            // Checks for the multiblock structure
+            BlockPattern.BlockPatternMatch blockpattern$blockpatternmatch = getOrCreateAltarPattern().find(level, blockPos);
 
-            recipeStuff(level, sacrificialAltarEntity, player, blockPos);
+            // Checks if there is a multiblock structure and if this block is the block at the center of it
+            if (blockpattern$blockpatternmatch != null && blockpattern$blockpatternmatch.getBlock(3, 3,0).getPos().equals(blockPos))
+                recipeStuff(level, sacrificialAltarEntity, player, blockPos);
         }
 
         return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
+    }
+
+    private static BlockPattern getOrCreateAltarPattern() {
+        if (altarPattern == null) {
+            altarPattern = BlockPatternBuilder.start().aisle("svvvvvs", ">sssss<", ">sssss<", ">ss#ss<", ">sssss<", ">sssss<", "s^^^^^s")
+                    .where('s', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.STONE_BRICKS)))
+                    .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(ModBlocks.SACRIFICIAL_ALTAR.get())))
+                    .where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.STONE_BRICK_STAIRS).where(FACING, Predicates.equalTo(Direction.SOUTH))))
+                    .where('v', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.STONE_BRICK_STAIRS).where(FACING, Predicates.equalTo(Direction.NORTH))))
+                    .where('>', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.STONE_BRICK_STAIRS).where(FACING, Predicates.equalTo(Direction.WEST))))
+                    .where('<', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.STONE_BRICK_STAIRS).where(FACING, Predicates.equalTo(Direction.EAST)))).build();
+            //.where('?', BlockInWorld.hasState(BlockStatePredicate.ANY))
+        }
+
+        return altarPattern;
     }
 
     private void recipeStuff(Level level, SacrificialAltarBlockEntity sacrificialAltarEntity, Player player, BlockPos blockPos){
