@@ -18,6 +18,9 @@ public class ModEffects {
             () -> new HealthLossEffect(MobEffectCategory.HARMFUL, 7475473)
                     .addAttributeModifier(Attributes.MAX_HEALTH, "9c0556be-a33d-4f15-bbc2-1b73fbe50c49", -0.5D, AttributeModifier.Operation.MULTIPLY_BASE));
 
+    public static final RegistryObject<MobEffect> FLIGHT = MOB_EFFECTS.register("flight",
+            () -> new FlightEffect(MobEffectCategory.BENEFICIAL, 15395562));
+
     public static void register(IEventBus eventBus){
         MOB_EFFECTS.register(eventBus);
     }
