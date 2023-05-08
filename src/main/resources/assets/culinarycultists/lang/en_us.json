@@ -3,9 +3,12 @@
   "item.culinarycultists.corrupted_bread": "Brēåd",
   "item.culinarycultists.corrupted_chicken": "Çhîckèn",
   "item.culinarycultists.corrupted_mutton": "Jeremy",
+  "item.culinarycultists.corrupted_carrot": "Corrat",
 
   "block.culinarycultists.zircon_block": "Block of Zircon",
   "block.culinarycultists.sacrificial_altar": "Sacrificial Altar",
+
+  "effect.culinarycultists.health_loss": "Health Loss",
 
   "entity.minecraft.villager.culinarycultists.cultist_villager": "Cultist",
   "culinarycultists.creative.tab": "Culinary Cultists"

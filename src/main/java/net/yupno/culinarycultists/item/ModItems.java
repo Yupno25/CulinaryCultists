@@ -33,6 +33,9 @@ public class ModItems {
                     .effect(new MobEffectInstance(MobEffects.HUNGER, 600, 4), 1.0F)
                     .effect(new MobEffectInstance(MobEffects.REGENERATION, 500, 1), 1.0F).meat().build())));
 
+    public static final RegistryObject<Item> CORRUPTED_CARROT = ITEMS.register("corrupted_carrot",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build())));
+
     public static void register (IEventBus eventBus){
         ITEMS.register(eventBus);
     }

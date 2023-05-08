@@ -13,6 +13,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.yupno.culinarycultists.block.ModBlocks;
 import net.yupno.culinarycultists.block.entity.ModBlockEntities;
+import net.yupno.culinarycultists.effect.ModEffects;
 import net.yupno.culinarycultists.item.ModCreativeModeTab;
 import net.yupno.culinarycultists.item.ModItems;
 import net.yupno.culinarycultists.recipe.ModRecipes;
@@ -37,6 +38,7 @@ public class CulinaryCultists
         ModRecipes.register(modEventBus);
 
         ModSounds.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -59,6 +61,7 @@ public class CulinaryCultists
             event.accept(ModItems.CORRUPTED_BREAD);
             event.accept(ModItems.CORRUPTED_CHICKEN);
             event.accept(ModItems.CORRUPTED_MUTTON);
+            event.accept(ModItems.CORRUPTED_CARROT);
 
             // Blocks
             event.accept(ModBlocks.ZIRCON_BLOCK);
