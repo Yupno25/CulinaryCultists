@@ -36,6 +36,9 @@ public class ModItems {
     public static final RegistryObject<Item> CORRUPTED_CARROT = ITEMS.register("corrupted_carrot",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build())));
 
+    public static final RegistryObject<Item> CORRUPTED_POTATO = ITEMS.register("corrupted_potato",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build())));
+
     public static void register (IEventBus eventBus){
         ITEMS.register(eventBus);
     }

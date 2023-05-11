@@ -13,6 +13,7 @@ public class HealthLossEffect extends MobEffect{
     @Override
     public void addAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
         super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+
         if(pLivingEntity.getHealth() > pLivingEntity.getMaxHealth())
             pLivingEntity.setHealth(pLivingEntity.getMaxHealth());
     }

@@ -15,12 +15,14 @@ public class FlightEffect extends MobEffect{
     @Override
     public void addAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
         super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+
         if(pLivingEntity instanceof Player player){
             player.getAbilities().mayfly = true;
-            Level level = player.level;
 
+            Level level = player.level;
             if (level.isClientSide)
                 player.getAbilities().setFlyingSpeed(player.getAbilities().getFlyingSpeed() * (pAmplifier + 1));
+
             player.onUpdateAbilities();
         }
     }
@@ -28,13 +30,15 @@ public class FlightEffect extends MobEffect{
     @Override
     public void removeAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
         super.removeAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+
         if(pLivingEntity instanceof Player player){
             player.getAbilities().mayfly = player.isCreative();
             player.getAbilities().flying = player.isCreative();
-            Level level = player.level;
 
+            Level level = player.level;
             if (level.isClientSide)
                 player.getAbilities().setFlyingSpeed(0.05F);
+
             player.onUpdateAbilities();
         }
     }

@@ -62,6 +62,7 @@ public class CulinaryCultists
             event.accept(ModItems.CORRUPTED_CHICKEN);
             event.accept(ModItems.CORRUPTED_MUTTON);
             event.accept(ModItems.CORRUPTED_CARROT);
+            event.accept(ModItems.CORRUPTED_POTATO);
 
             // Blocks
             event.accept(ModBlocks.ZIRCON_BLOCK);
