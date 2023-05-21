@@ -65,7 +65,7 @@ public class CulinaryCultists
             event.accept(ModItems.CORRUPTED_POTATO);
 
             // Blocks
-            event.accept(ModBlocks.ZIRCON_BLOCK);
+            event.accept(ModBlocks.SACRIFICE_BLOCK);
             event.accept(ModBlocks.SACRIFICIAL_ALTAR);
         }
     }

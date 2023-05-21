@@ -5,9 +5,7 @@ import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
@@ -24,10 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
-import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.yupno.culinarycultists.block.ModBlocks;
 import net.yupno.culinarycultists.block.entity.SacrificialAltarBlockEntity;
@@ -56,14 +52,14 @@ public class SacrificialAltarBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(blockPos);
 
         if(entity instanceof SacrificialAltarBlockEntity){
-            SacrificialAltarBlockEntity sacrificialAltarEntity = ((SacrificialAltarBlockEntity)entity);
+            SacrificialAltarBlockEntity sacrificialAltarBlockEntity = ((SacrificialAltarBlockEntity)entity);
 
             // Checks for the multiblock structure
             BlockPattern.BlockPatternMatch blockpattern$blockpatternmatch = getOrCreateAltarPattern().find(level, blockPos);
 
             // Checks if there is a multiblock structure and if this block is the block at the center of it
             if (blockpattern$blockpatternmatch != null && blockpattern$blockpatternmatch.getBlock(3, 3,0).getPos().equals(blockPos))
-                recipeStuff(level, sacrificialAltarEntity, player, blockPos);
+                recipeStuff(level, sacrificialAltarBlockEntity, player, blockPos);
         }
 
         return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
@@ -84,8 +80,8 @@ public class SacrificialAltarBlock extends BaseEntityBlock {
         return altarPattern;
     }
 
-    private void recipeStuff(Level level, SacrificialAltarBlockEntity sacrificialAltarEntity, Player player, BlockPos blockPos){
-        List<ItemEntity> itemEntities = sacrificialAltarEntity.getItemsAbove(level, sacrificialAltarEntity);
+    private void recipeStuff(Level level, SacrificialAltarBlockEntity sacrificialAltarBlockEntity, Player player, BlockPos blockPos){
+        List<ItemEntity> itemEntities = sacrificialAltarBlockEntity.getItemsAbove(level, sacrificialAltarBlockEntity);
         SimpleContainer inventory = new SimpleContainer(itemEntities.size());
 
         int t = 0;
@@ -115,9 +111,11 @@ public class SacrificialAltarBlock extends BaseEntityBlock {
                 }
             }
 
+            //player.sendSystemMessage(Component.literal("Hey " + recipe.get().getResultItem(null).getCount()));
+
             // Spawns output if the items on top match a recipe
-            level.addFreshEntity(new ItemEntity(level, (int)sacrificialAltarEntity.getLevelX() + 0.5D,
-                    (int)sacrificialAltarEntity.getLevelY() + 1D, (int)sacrificialAltarEntity.getLevelZ()  + 0.5D,
+            level.addFreshEntity(new ItemEntity(level, (int) sacrificialAltarBlockEntity.getLevelX() + 0.5D,
+                    (int) sacrificialAltarBlockEntity.getLevelY() + 1D, (int) sacrificialAltarBlockEntity.getLevelZ()  + 0.5D,
                     recipe.get().getResultItem(null), 0, 0, 0));
         }
     }

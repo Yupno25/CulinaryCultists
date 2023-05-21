@@ -18,6 +18,11 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(SacrificialAltarBlockEntity::new,
                             ModBlocks.SACRIFICIAL_ALTAR.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<SacrificialAltarBlockEntity>> SACRIFICE_BLOCK =
+            BLOCK_ENTITIES.register("sacrifice_block", () ->
+                    BlockEntityType.Builder.of(SacrificialAltarBlockEntity::new,
+                            ModBlocks.SACRIFICE_BLOCK.get()).build(null));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }
