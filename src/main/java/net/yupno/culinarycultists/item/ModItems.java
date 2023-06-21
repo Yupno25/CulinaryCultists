@@ -4,11 +4,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.yupno.culinarycultists.CulinaryCultists;
+import net.yupno.culinarycultists.entity.ModEntityTypes;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -38,6 +40,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> CORRUPTED_POTATO = ITEMS.register("corrupted_potato",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build())));
+
+    public static final RegistryObject<Item> SEETH_SPAWN_EGG = ITEMS.register("seeth_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SEETH, 0xC4C4C4, 0x3B0084, new Item.Properties()));
 
     public static void register (IEventBus eventBus){
         ITEMS.register(eventBus);

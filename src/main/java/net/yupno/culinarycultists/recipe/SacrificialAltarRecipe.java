@@ -8,7 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -16,11 +15,7 @@ import net.yupno.culinarycultists.CulinaryCultists;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
 
@@ -45,18 +40,106 @@ public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
             return false;
         itemsToRemove = new ArrayList<>();
 
-        // Converts simpleContainer into an itemStack list
-        List<ItemStack> simpleContainer_ = new ArrayList<>();
+        // Converts simpleContainer into an ItemStack List
+        List<ItemStack> simpleContainerDuplicates = new ArrayList<>();
         for (int i = 0; i < simpleContainer.getContainerSize(); i++) {
-            simpleContainer_.add(simpleContainer.getItem(i));
+            simpleContainerDuplicates.add(simpleContainer.getItem(i));
         }
+
+        // Removes any duplicates from the SimpleContainer
+        List<ItemStack> simpleContainerNoDuplicates = simpleContainerDuplicates;
+        for (int i = 0; i < simpleContainerNoDuplicates.size() - 1; i++) {
+            for (int j = i + 1; j < simpleContainerNoDuplicates.size(); j++) {
+                if (simpleContainerNoDuplicates.get(i).getItem().equals(simpleContainerNoDuplicates.get(j).getItem())) {
+                    simpleContainerNoDuplicates.remove(j);
+                    j--;
+                }
+            }
+        }
+
+        ItemStack[][] recipe_ = new ItemStack[recipeItems.size()][];
+        List<ItemStack> recipe = new ArrayList<>();
+        for (int i = 0; i < recipeItems.size(); i++) {
+            recipe_[i] = recipeItems.get(i).getItems();
+            recipe.add(recipe_[i][0]);
+        }
+
+        int match = 0;
+        // Check if all the items from the recipe are present within the simpleContainer
+        // This should include count
+        // If there are any food items they shouldn't be included any longer to avoid using them in the food Check
+        for (int i = 0; i < recipeItems.size(); i++) {
+            for (int j = 0; j < simpleContainerNoDuplicates.size(); j++) {
+                if (recipeItems.get(i).test(simpleContainerNoDuplicates.get(j))){
+                    for (int k = 0; k < recipe.get(i).getCount(); k++) {
+                        if(simpleContainerNoDuplicates.get(j).getCount() > 0){
+                            itemsToRemove.add(simpleContainerNoDuplicates.get(j));
+                            match++;
+
+                        }else {
+                            boolean secondItem = false;
+                            for (int l = 0; l < simpleContainerDuplicates.size(); l++) {
+                                if(secondItem && simpleContainerDuplicates.get(l).getItem().equals(simpleContainerNoDuplicates.get(j))){
+                                    simpleContainerNoDuplicates.remove(j);
+                                    simpleContainerNoDuplicates.add(simpleContainerDuplicates.get(l));
+                                }
+
+                                if(simpleContainerDuplicates.get(l).getItem().equals(simpleContainerNoDuplicates.get(j))){
+                                    secondItem = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+        // Converts the recipeItems into an ItemStack List
+        ItemStack[][] recipe_ = new ItemStack[recipeItems.size()][];
+        List<ItemStack> recipe = new ArrayList<>();
+        for (int i = 0; i < recipeItems.size(); i++) {
+            recipe_[i] = recipeItems.get(i).getItems();
+            recipe.add(recipe_[i][0]);
+        }
+         */
+
+
+        /*
+        // Removes any duplicates from the SimpleContainer
+        for (int i = 0; i < simpleContainerNoDuplicates.size() - 1; i++) {
+            for (int j = i + 1; j < simpleContainerNoDuplicates.size(); j++) {
+                if (simpleContainerNoDuplicates.get(i).getItem().equals(simpleContainerNoDuplicates.get(j).getItem())) {
+                    simpleContainerNoDuplicates.remove(j);
+                    j--;
+                }
+            }
+        }
+         */
+
+        /*
+        for (int i = 0; i < recipe.size(); i++) {
+            for (int j = 0; j < simpleContainerNoDuplicates.size(); j++) {
+                if(recipeItems.get(i).test(simpleContainerNoDuplicates.get(j))){
+                    // Is getting called one too many times
+                    for (int k = 0; k < recipe.get(i).getCount(); k++) {
+                        itemsToRemove.add(simpleContainerNoDuplicates.get(j));
+
+                        // Currently isn't working
+                        if(recipe.get(i).getCount() == k + 1)
+                            recipe.remove(0);
+                    }
+                }
+            }
+        }
+         */
 
         if(requiredFood > 0){
             int food = 0;
 
             // Checks through all FoodItems on top of the block and adds their food values up
-            for (ItemStack itemStack : simpleContainer_) {
-                if(itemStack.getItem().isEdible()){
+            for (ItemStack itemStack : simpleContainerNoDuplicates) {
+                if(itemStack.getItem().isEdible() && !itemStack.getItem().getDescriptionId().contains(CulinaryCultists.MOD_ID)){
                     for (int i = 0; i < itemStack.getCount(); i++) {
                         food += itemStack.getFoodProperties(null).getNutrition();
                         itemsToRemove.add(itemStack);
@@ -72,29 +155,13 @@ public class SacrificialAltarRecipe implements Recipe<SimpleContainer> {
                 return false;
         }
 
-        // Removes any duplicates from the SimpleContainer
-        for (int i = 0; i < simpleContainer_.size() - 1; i++) {
-            for (int j = i + 1; j < simpleContainer_.size(); j++) {
-                if (simpleContainer_.get(i).getItem().equals(simpleContainer_.get(j).getItem())) {
-                    simpleContainer_.remove(j);
-                    j--;
-                }
-            }
+        int requiredItemMatches = 0;
+        for (int i = 0; i < recipe.size(); i++) {
+            requiredItemMatches += recipe.get(i).getCount();
         }
 
-        int match = 0;
-        // Checks every item in recipeItems against every item in noDuplicates
-        for (int i = 0; i < recipeItems.size(); i++) {
-            for (int j = 0; j < simpleContainer_.size(); j++) {
-                if(recipeItems.get(i).test(simpleContainer_.get(j))){
-                    match++;
-                    itemsToRemove.add(simpleContainer_.get(j));
-                }
-            }
-        }
-
-        // When "match" is equal to recipeItems.size() that means that all recipeItems are present on top of the block
-        if(match == recipeItems.size())
+        // match needs to match the total amount of required items
+        if(match == requiredItemMatches)
             return true;
         else
             return false;

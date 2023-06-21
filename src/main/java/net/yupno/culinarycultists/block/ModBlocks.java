@@ -20,12 +20,11 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, CulinaryCultists.MOD_ID);
 
-    public static final RegistryObject<Block> SACRIFICE_BLOCK = registerBlock("sacrifice_block",
-            () -> new SacrificeBlock(BlockBehaviour.Properties.of(Material.STONE)
-                    .strength(6f).requiresCorrectToolForDrops()));
-
     public static final RegistryObject<Block> SACRIFICIAL_ALTAR = registerBlock("sacrificial_altar",
             () -> new SacrificialAltarBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(6f).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> SACRIFICE_BLOCK = registerBlock("sacrifice_block",
+            () -> new SacrificeBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f).requiresCorrectToolForDrops()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){

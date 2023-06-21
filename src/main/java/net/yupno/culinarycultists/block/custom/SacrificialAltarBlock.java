@@ -111,8 +111,6 @@ public class SacrificialAltarBlock extends BaseEntityBlock {
                 }
             }
 
-            //player.sendSystemMessage(Component.literal("Hey " + recipe.get().getResultItem(null).getCount()));
-
             // Spawns output if the items on top match a recipe
             level.addFreshEntity(new ItemEntity(level, (int) sacrificialAltarBlockEntity.getLevelX() + 0.5D,
                     (int) sacrificialAltarBlockEntity.getLevelY() + 1D, (int) sacrificialAltarBlockEntity.getLevelZ()  + 0.5D,
